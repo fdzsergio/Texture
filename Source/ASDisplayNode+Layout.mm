@@ -11,13 +11,10 @@
 #import <AsyncDisplayKit/ASCollections.h>
 #import <AsyncDisplayKit/ASDisplayNodeExtras.h>
 #import <AsyncDisplayKit/ASDisplayNodeInternal.h>
-#import <AsyncDisplayKit/ASDisplayNode+FrameworkPrivate.h>
 #import <AsyncDisplayKit/ASDisplayNode+Subclasses.h>
 #import <AsyncDisplayKit/ASInternalHelpers.h>
 #import <AsyncDisplayKit/ASLayout.h>
 #import <AsyncDisplayKit/ASLayoutElementStylePrivate.h>
-#import <AsyncDisplayKit/ASLog.h>
-#import <AsyncDisplayKit/ASNodeController+Beta.h>
 #import <AsyncDisplayKit/ASDisplayNode+Yoga.h>
 #import <AsyncDisplayKit/NSArray+Diffing.h>
 
@@ -136,10 +133,16 @@ ASLayoutElementStyleExtensibilityForwarding
 {
   AS::UniqueLock l(__instanceLock__);
   if (ASPrimitiveTraitCollectionIsEqualToASPrimitiveTraitCollection(traitCollection, _primitiveTraitCollection) == NO) {
+    ASPrimitiveTraitCollection previousTraitCollection = _primitiveTraitCollection;
     _primitiveTraitCollection = traitCollection;
 
     l.unlock();
-    [self asyncTraitCollectionDidChange];
+    if (ASActivateExperimentalFeature(ASExperimentalTraitCollectionDidChangeWithPreviousCollection)) {
+      [self asyncTraitCollectionDidChangeWithPreviousTraitCollection:previousTraitCollection];
+    } else {
+      [self asyncTraitCollectionDidChange];
+    }
+
   }
 }
 

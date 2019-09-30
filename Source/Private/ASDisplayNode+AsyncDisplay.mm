@@ -10,13 +10,10 @@
 #import <AsyncDisplayKit/_ASCoreAnimationExtras.h>
 #import <AsyncDisplayKit/_ASAsyncTransaction.h>
 #import <AsyncDisplayKit/_ASDisplayLayer.h>
-#import <AsyncDisplayKit/ASAssert.h>
 #import <AsyncDisplayKit/ASDisplayNodeInternal.h>
-#import <AsyncDisplayKit/ASDisplayNode+FrameworkPrivate.h>
 #import <AsyncDisplayKit/ASGraphicsContext.h>
 #import <AsyncDisplayKit/ASInternalHelpers.h>
 #import <AsyncDisplayKit/ASSignpost.h>
-#import <AsyncDisplayKit/ASDisplayNodeExtras.h>
 
 using AS::MutexLocker;
 
@@ -263,7 +260,7 @@ using AS::MutexLocker;
    Color the interval red if cancelled, green otherwise.
    */
 #if AS_SIGNPOST_ENABLE
-  __unsafe_unretained id ptrSelf = (id)self;
+  unowned id ptrSelf = (id)self;
   displayBlock = ^{
     ASSignpostStart(LayerDisplay, ptrSelf, "%@", ASObjectDescriptionMakeTiny(ptrSelf));
     id result = displayBlock();

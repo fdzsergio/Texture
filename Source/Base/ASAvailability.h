@@ -18,20 +18,20 @@
 #endif
 
 #ifndef AS_ENABLE_TEXTNODE
-  #define AS_ENABLE_TEXTNODE 1 // Enable old TextNode by default
+  #define AS_ENABLE_TEXTNODE 0 // Enable old TextNode by default
 #endif
 
 // This needs to stay in sync with Weaver
 #ifndef AS_USE_VIDEO
-  #define AS_USE_VIDEO 0
+  #define AS_USE_VIDEO 1
 #endif
 
 #ifndef AS_USE_PHOTOS
-  #define AS_USE_PHOTOS 0
+  #define AS_USE_PHOTOS 1
 #endif
 
 #ifndef AS_USE_MAPKIT
-  #define AS_USE_MAPKIT 0
+  #define AS_USE_MAPKIT 1
 #endif
 
 #ifndef AS_USE_ASSETS_LIBRARY
@@ -50,8 +50,13 @@
   #define __IPHONE_11_0 110000
 #endif
 
+#ifndef __IPHONE_13_0
+  #define __IPHONE_13_0 130000
+#endif
+
 #define AS_AT_LEAST_IOS10  (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_10_0)
 #define AS_AT_LEAST_IOS11  (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_11_0)
+#define AS_AT_LEAST_IOS13  (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
 
 // Use __builtin_available if we're on Xcode >= 9, AS_AT_LEAST otherwise.
 #if __has_builtin(__builtin_available)
@@ -79,11 +84,11 @@
   #error "ASTEXTNODE_EXPERIMENT_GLOBAL_ENABLE is unavailable. See ASConfiguration.h."
 #endif
 
-#define AS_PIN_REMOTE_IMAGE __has_include(<PINRemoteImage/PINRemoteImage.h>)
-#define AS_IG_LIST_KIT __has_include(<IGListKit/IGListKit.h>)
+#define AS_PIN_REMOTE_IMAGE 0
+#define AS_IG_LIST_KIT 0
 
 /**
  * For IGListKit versions < 3.0, you have to use IGListCollectionView.
  * For 3.0 and later, that class is removed and you use UICollectionView.
  */
-#define IG_LIST_COLLECTION_VIEW __has_include(<IGListKit/IGListCollectionView.h>)
+#define IG_LIST_COLLECTION_VIEW 0
